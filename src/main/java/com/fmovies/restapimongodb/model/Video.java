@@ -2,6 +2,7 @@ package com.fmovies.restapimongodb.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.ArrayList;
 
@@ -20,9 +21,9 @@ public class Video {
    private String poster;
    private String banner;
    private String type;
-   private Float rent;
-   private Float buy;
-   private Float IMDbRating;
+   private String rent;
+   private String buy;
+   private String imdbRating;
    private ArrayList<String> actors;
    private String director;
    private Boolean inDemand = false;
@@ -100,28 +101,28 @@ public class Video {
       this.type = type;
    }
 
-   public Float getRent() {
+   public String getRent() {
       return rent;
    }
 
-   public void setRent(Float rent) {
+   public void setRent(String rent) {
       this.rent = rent;
    }
 
-   public Float getBuy() {
+   public String getBuy() {
       return buy;
    }
 
-   public void setBuy(Float buy) {
+   public void setBuy(String buy) {
       this.buy = buy;
    }
 
-   public Float getIMDbRating() {
-      return IMDbRating;
+   public String getImdbRating() {
+      return imdbRating;
    }
 
-   public void setIMDbRating(Float IMDbRating) {
-      this.IMDbRating = IMDbRating;
+   public void setImdbRating(String imdbRating) {
+      this.imdbRating = imdbRating;
    }
 
    public ArrayList<String> getActors() {
@@ -172,7 +173,7 @@ public class Video {
               ", type='" + type + '\'' +
               ", rent=" + rent +
               ", buy=" + buy +
-              ", IMDbRating=" + IMDbRating +
+              ", IMDbRating=" + imdbRating +
               ", actors=" + actors +
               ", director='" + director + '\'' +
               ", inDemand=" + inDemand +

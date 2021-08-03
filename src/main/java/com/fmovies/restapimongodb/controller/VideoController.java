@@ -55,7 +55,7 @@ public class VideoController {
             return new ResponseEntity(new CustomResponse(null, "No such movie or tv-show found fam!"),
                     HttpStatus.NOT_FOUND);
 
-        return  new ResponseEntity(new CustomResponse(results, "Here's the results for \"" + q +"\""), HttpStatus.OK);
+        return new ResponseEntity(new CustomResponse(results, "Here's the results for \"" + q + "\""), HttpStatus.OK);
 
     }
 
@@ -71,7 +71,6 @@ public class VideoController {
     }
 
 
-
     @PostMapping(value = "/new", consumes = {
             MediaType.APPLICATION_JSON_VALUE
     })
@@ -80,31 +79,45 @@ public class VideoController {
         var newVideo = videoService.createNewVideo(video);
 
         if (newVideo != null)
-            return new ResponseEntity(newVideo, HttpStatus.OK);
+            return new ResponseEntity(new CustomResponse(newVideo, "New video added Boo!"), HttpStatus.OK);
 
-        return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(new CustomResponse("Failed", "Check your inputs again, fool!"),
+                HttpStatus.BAD_REQUEST);
     }
 
+    @PutMapping(value = "/{id}", consumes = {
+            MediaType.APPLICATION_JSON_VALUE
+    })
+    public ResponseEntity updateVideo(@PathVariable String id, @RequestBody Video video) {
+
+        var updatedVideo = videoService.updateVideo(id, video);
+
+        if (updatedVideo != null)
+            return new ResponseEntity(new CustomResponse(updatedVideo, "Video updated fam, ENJOY!"), HttpStatus.OK);
+
+        return new ResponseEntity(new CustomResponse(null, "No such movie or tv-show exists!"), HttpStatus.NOT_FOUND);
+    }
 
     @GetMapping("/{id}")
-    public ResponseEntity getVideo(@PathVariable("id") String id) {
+    public ResponseEntity getVideo(@PathVariable String id) {
 
         var video = videoService.getVideo(id);
 
-        var response = new CustomResponse();
-        var statusMessage = HttpStatus.NOT_FOUND;
+        if (video.isEmpty())
+            return new ResponseEntity(new CustomResponse(null, "No such movie or tv-show exists!"), HttpStatus.NOT_FOUND);
 
-        if (video.isEmpty()) {
-            response.setData(null);
-            response.setMessage("No such movie or tv-show exists!");
-        } else {
-            response.setData(video);
-            response.setMessage("Here's the video fam, ENJOY!");
-            statusMessage = HttpStatus.OK;
-        }
+        return new ResponseEntity(new CustomResponse(video, "Here's the video fam, ENJOY!"), HttpStatus.OK);
 
-
-        return new ResponseEntity(response, statusMessage);
     }
 
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteVideo(@PathVariable String id) {
+        var isVideoDeleted = videoService.deleteVideo(id);
+
+        if (isVideoDeleted)
+            return new ResponseEntity(new CustomResponse("Success", "Video deleted fam!"), HttpStatus.OK);
+
+        return new ResponseEntity(new CustomResponse("Failed", "Could not find the video fam!"), HttpStatus.NOT_FOUND);
+    }
 }

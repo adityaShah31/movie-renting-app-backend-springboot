@@ -41,7 +41,7 @@ public class UserController {
     })
     public ResponseEntity validateUser(@RequestBody User user) {
 
-        var isUserAuthorized = userService.isUserAuthorized(user.getId());
+        var isUserAuthorized = userService.checkUserCredentials(user.getEmail(), user.getPassword());
 
         if (isUserAuthorized)
             return new ResponseEntity(new CustomResponse("Success", "You're logged in fam!"), HttpStatus.OK);

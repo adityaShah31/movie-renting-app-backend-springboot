@@ -19,7 +19,7 @@ public class UserService {
     }
 
 
-    public boolean isUserAuthorized(String userId) {
+    public boolean checkUserCredentials(String email, String password) {
 
 
         return true;

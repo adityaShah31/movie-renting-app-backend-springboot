@@ -52,6 +52,8 @@ public class VideoService {
 
 
     public Video createNewVideo(Video video) {
+        //validate inputs and then insert into Db
+
         return videoRepository.insert(video);
     }
 
@@ -60,5 +62,41 @@ public class VideoService {
         return videoRepository.findById(id);
     }
 
+    public Video updateVideo(String id, Video newVideoBody) {
+
+        var video = videoRepository.findById(id);
+
+        if (video.isEmpty()) {
+                return null;
+        }
+
+        Video updatedVideo = video.get();
+        updatedVideo.setTitle(newVideoBody.getTitle());
+        updatedVideo.setSynopsis(newVideoBody.getSynopsis());
+        updatedVideo.setGenres(newVideoBody.getGenres());
+        updatedVideo.setReleaseYear(newVideoBody.getReleaseYear());
+        updatedVideo.setRuntime(newVideoBody.getRuntime());
+        updatedVideo.setBanner(newVideoBody.getBanner());
+        updatedVideo.setPoster(newVideoBody.getPoster());
+        updatedVideo.setType(newVideoBody.getType());
+        updatedVideo.setRent(newVideoBody.getRent());
+        updatedVideo.setBuy(newVideoBody.getBuy());
+        updatedVideo.setActors(newVideoBody.getActors());
+        updatedVideo.setDirector(newVideoBody.getDirector());
+        updatedVideo.setInDemand(newVideoBody.getInDemand());
+        updatedVideo.setFeatured(newVideoBody.getFeatured());
+        updatedVideo.setImdbRating(newVideoBody.getImdbRating());
+
+        return videoRepository.save(updatedVideo);
+    }
+
+    public boolean deleteVideo(String id) {
+        var isVideoPresent = videoRepository.existsById(id);
+
+        if (isVideoPresent)
+            videoRepository.deleteById(id);
+
+        return isVideoPresent;
+    }
 
 }
