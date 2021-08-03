@@ -28,13 +28,16 @@ public class UserController {
     })
     public ResponseEntity addNewUser(@RequestBody @Valid User user) {
 
-        User newUser = userService.createNewUser(user);
+        try{
+            User newUser = userService.createNewUser(user);
 
-        if (newUser != null)
             return new ResponseEntity(new CustomResponse(newUser, "New user created fam!"), HttpStatus.OK);
 
-        return new ResponseEntity(new CustomResponse(null, "Check your inputs fool! Could not validate them!"),
-                HttpStatus.BAD_REQUEST);
+        } catch (Exception ex) {
+            return new ResponseEntity(new CustomResponse(null, ex.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
+
     };
 
 

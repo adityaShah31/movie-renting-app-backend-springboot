@@ -15,12 +15,19 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User createNewUser(User user) {
+    public User createNewUser(User user) throws Exception{
 
-        String hashedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
-        user.setPassword(hashedPassword);
+        User exisitingUser = userRepository.findByEmail(user.getEmail());
 
-        return userRepository.insert(user);
+        if (exisitingUser == null) {
+            String hashedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+            user.setPassword(hashedPassword);
+
+            return userRepository.insert(user);
+        }
+
+        throw new Exception("Email already exists FOOL, try something else!");
+
     }
 
 
