@@ -66,7 +66,7 @@ public class VideoService {
 
         Optional<Video> video = videoRepository.findById(id);
 
-        if (video.isEmpty()) {
+        if (video == null) {
                 return null;
         }
 

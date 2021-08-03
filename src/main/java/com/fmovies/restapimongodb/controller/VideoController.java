@@ -52,7 +52,7 @@ public class VideoController {
     public ResponseEntity getVideosBySearch(@RequestParam String q) {
         ArrayList<Video> results = videoService.getVideoBySearch(q);
 
-        if (results.isEmpty() || results.size() == 0)
+        if (results == null || results.size() == 0)
             return new ResponseEntity(new CustomResponse(null, "No such movie or tv-show found fam!"),
                     HttpStatus.NOT_FOUND);
 
@@ -104,7 +104,7 @@ public class VideoController {
 
         Optional<Video> video = videoService.getVideo(id);
 
-        if (video.isEmpty())
+        if (video == null)
             return new ResponseEntity(new CustomResponse(null, "No such movie or tv-show exists!"), HttpStatus.NOT_FOUND);
 
         return new ResponseEntity(new CustomResponse(video, "Here's the video fam, ENJOY!"), HttpStatus.OK);
