@@ -4,6 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+
 public class LoginDto {
 
     @NotBlank(message = "Email address cannot be empty!")
@@ -11,7 +12,7 @@ public class LoginDto {
     private String email;
 
     @NotBlank(message = "Password cannot be empty!")
-    @Size(min = 8, max = 20, message = "Password has to be between 8 and 20 characters long!")
+    @Size(min = 8, message = "Password has to be minimum of 8 characters long!")
     private String password;
 
     public LoginDto() {
