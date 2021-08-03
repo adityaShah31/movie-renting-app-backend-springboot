@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -75,7 +76,7 @@ public class VideoController {
     @PostMapping(value = "/new", consumes = {
             MediaType.APPLICATION_JSON_VALUE
     })
-    public ResponseEntity addNewVideo(@RequestBody Video video) {
+    public ResponseEntity addNewVideo(@RequestBody @Valid Video video) {
 
         Video newVideo = videoService.createNewVideo(video);
 
@@ -89,7 +90,7 @@ public class VideoController {
     @PutMapping(value = "/{id}", consumes = {
             MediaType.APPLICATION_JSON_VALUE
     })
-    public ResponseEntity updateVideo(@PathVariable String id, @RequestBody Video video) {
+    public ResponseEntity updateVideo(@PathVariable String id, @RequestBody @Valid Video video) {
 
         Video updatedVideo = videoService.updateVideo(id, video);
 

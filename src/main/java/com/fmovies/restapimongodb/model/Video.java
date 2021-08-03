@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 
 @Document("videos")
@@ -13,19 +14,45 @@ public class Video {
    @Id
    private String id;
 
+   @NotBlank()
    private String title;
+
+   @NotBlank()
    private String synopsis;
+
+   @NotBlank()
    private ArrayList<String> genres;
+
+   @NotBlank()
    private String releaseYear;
+
+   @NotBlank()
    private String runtime;
+
+   @NotBlank()
    private String poster;
+
+   @NotBlank()
    private String banner;
+
+   @NotBlank()
    private String type;
+
+   @NotBlank()
    private String rent;
+
+   @NotBlank()
    private String buy;
+
+   @NotBlank()
    private String imdbRating;
+
+   @NotBlank()
    private ArrayList<String> actors;
+
+   @NotBlank()
    private String director;
+
    private Boolean inDemand = false;
    private Boolean featured = false;
 

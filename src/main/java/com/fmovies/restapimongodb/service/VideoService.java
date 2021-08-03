@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,8 +51,6 @@ public class VideoService {
 
 
     public Video createNewVideo(Video video) {
-        //validate inputs and then insert into Db
-
         return videoRepository.insert(video);
     }
 

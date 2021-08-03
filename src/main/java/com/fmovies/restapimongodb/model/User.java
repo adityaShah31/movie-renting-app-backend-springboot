@@ -3,17 +3,24 @@ package com.fmovies.restapimongodb.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotBlank;
+
+
 @Document("users")
-public class User {
+public class User extends LoginDto {
 
     @Id
     private String id;
 
+    @NotBlank(message = "First Name cannot be empty")
     private String firstName;
+
+    @NotBlank(message = "Last Name cannot be empty")
     private String lastName;
+
+    @NotBlank(message = "Provide a proper username FOOL!")
     private String username;
-    private String email;
-    private String password;
+
 
     public User() {};
 
@@ -49,21 +56,6 @@ public class User {
         this.username = username;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     @Override
     public String toString() {
@@ -72,8 +64,8 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", password='" + getPassword() + '\'' +
                 '}';
     }
 }
