@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/videos")
@@ -29,7 +30,7 @@ public class VideoController {
 
     @GetMapping("/movies")
     public ResponseEntity getAllMovies() {
-        var movies = videoService.getVideosByType("movie");
+        ArrayList<Video> movies = videoService.getVideosByType("movie");
 
         CustomResponse response = new CustomResponse(movies, "Here's your movies fam!");
 
@@ -39,7 +40,7 @@ public class VideoController {
     @GetMapping("/tv-shows")
     public ResponseEntity getAllTVShows() {
 
-        var tvShows = videoService.getVideosByType("tv-show");
+        ArrayList<Video> tvShows = videoService.getVideosByType("tv-show");
 
         CustomResponse response = new CustomResponse(tvShows, "Here's your tv-shows fam!");
 
@@ -49,7 +50,7 @@ public class VideoController {
 
     @GetMapping("/search")
     public ResponseEntity getVideosBySearch(@RequestParam String q) {
-        var results = videoService.getVideoBySearch(q);
+        ArrayList<Video> results = videoService.getVideoBySearch(q);
 
         if (results.isEmpty() || results.size() == 0)
             return new ResponseEntity(new CustomResponse(null, "No such movie or tv-show found fam!"),
@@ -63,7 +64,7 @@ public class VideoController {
     @GetMapping("/featured")
     public ResponseEntity getFeaturedVideos(@RequestParam(required = false) String type) {
 
-        var featuredVideos = videoService.getFeaturedVideos(type);
+        ArrayList<Video> featuredVideos = videoService.getFeaturedVideos(type);
 
         CustomResponse response = new CustomResponse(featuredVideos, "Here's all featured videos fam!");
 
@@ -76,7 +77,7 @@ public class VideoController {
     })
     public ResponseEntity addNewVideo(@RequestBody Video video) {
 
-        var newVideo = videoService.createNewVideo(video);
+        Video newVideo = videoService.createNewVideo(video);
 
         if (newVideo != null)
             return new ResponseEntity(new CustomResponse(newVideo, "New video added Boo!"), HttpStatus.OK);
@@ -90,7 +91,7 @@ public class VideoController {
     })
     public ResponseEntity updateVideo(@PathVariable String id, @RequestBody Video video) {
 
-        var updatedVideo = videoService.updateVideo(id, video);
+        Video updatedVideo = videoService.updateVideo(id, video);
 
         if (updatedVideo != null)
             return new ResponseEntity(new CustomResponse(updatedVideo, "Video updated fam, ENJOY!"), HttpStatus.OK);
@@ -101,7 +102,7 @@ public class VideoController {
     @GetMapping("/{id}")
     public ResponseEntity getVideo(@PathVariable String id) {
 
-        var video = videoService.getVideo(id);
+        Optional<Video> video = videoService.getVideo(id);
 
         if (video.isEmpty())
             return new ResponseEntity(new CustomResponse(null, "No such movie or tv-show exists!"), HttpStatus.NOT_FOUND);
@@ -113,7 +114,7 @@ public class VideoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteVideo(@PathVariable String id) {
-        var isVideoDeleted = videoService.deleteVideo(id);
+        boolean isVideoDeleted = videoService.deleteVideo(id);
 
         if (isVideoDeleted)
             return new ResponseEntity(new CustomResponse("Success", "Video deleted fam!"), HttpStatus.OK);

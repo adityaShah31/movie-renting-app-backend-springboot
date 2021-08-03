@@ -25,7 +25,7 @@ public class UserController {
     })
     public ResponseEntity addNewUser(@RequestBody User user) {
 
-        var newUser = userService.createNewUser(user);
+        User newUser = userService.createNewUser(user);
 
         if (newUser != null)
             return new ResponseEntity(new CustomResponse(newUser, "New user created fam!"), HttpStatus.OK);
@@ -41,7 +41,7 @@ public class UserController {
     })
     public ResponseEntity validateUser(@RequestBody User user) {
 
-        var isUserAuthorized = userService.checkUserCredentials(user.getEmail(), user.getPassword());
+        boolean isUserAuthorized = userService.checkUserCredentials(user.getEmail(), user.getPassword());
 
         if (isUserAuthorized)
             return new ResponseEntity(new CustomResponse("Success", "You're logged in fam!"), HttpStatus.OK);

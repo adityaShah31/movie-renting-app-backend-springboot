@@ -28,7 +28,7 @@ public class VideoService {
     }
 
     public ArrayList<Video> getVideosByType(String type) {
-        var videos = videoRepository.findByType(type);
+        ArrayList<Video> videos = videoRepository.findByType(type);
 
         return videos;
     }
@@ -64,7 +64,7 @@ public class VideoService {
 
     public Video updateVideo(String id, Video newVideoBody) {
 
-        var video = videoRepository.findById(id);
+        Optional<Video> video = videoRepository.findById(id);
 
         if (video.isEmpty()) {
                 return null;
@@ -91,7 +91,7 @@ public class VideoService {
     }
 
     public boolean deleteVideo(String id) {
-        var isVideoPresent = videoRepository.existsById(id);
+        boolean isVideoPresent = videoRepository.existsById(id);
 
         if (isVideoPresent)
             videoRepository.deleteById(id);
