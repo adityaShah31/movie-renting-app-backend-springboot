@@ -11,6 +11,4 @@ public interface VideoRepository extends MongoRepository<Video, String> {
     ArrayList<Video> findByType(String type);
     ArrayList<Video> findByFeatured(boolean featured);
     ArrayList<Video> findByFeaturedAndType(boolean featured, String type);
-
-//    ArrayList<Video> findByTitleContaining
 }

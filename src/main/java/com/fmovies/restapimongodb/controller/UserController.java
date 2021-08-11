@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,12 +27,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
     @PostMapping(value = "/register", consumes = {
             MediaType.APPLICATION_JSON_VALUE
     })
     public ResponseEntity addNewUser(@RequestBody @Valid User user) {
 
-        try{
+        try {
             User newUser = userService.createNewUser(user);
 
             return new ResponseEntity(new CustomResponse(newUser, "New user created fam!"), HttpStatus.OK);
@@ -38,8 +45,7 @@ public class UserController {
                     HttpStatus.BAD_REQUEST);
         }
 
-    };
-
+    }
 
 
     @PostMapping(value = "/login", consumes = {
@@ -47,14 +53,16 @@ public class UserController {
     })
     public ResponseEntity authenticateUser(@RequestBody @Valid LoginDto user) {
 
-        boolean isUserAuthenticated = userService.checkUserCredentials(user);
 
-        if (isUserAuthenticated)
+        try {
+            Authentication authResponse = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),
+                    user.getPassword()));
+
             return new ResponseEntity(new CustomResponse("Success", "You're logged in fam!"), HttpStatus.OK);
-
-        return new ResponseEntity(new CustomResponse("Failed", "Check your credentials fool! Could not find them in " +
-                "the Db"),
-                HttpStatus.NOT_FOUND);
+        } catch (BadCredentialsException ex) {
+            return new ResponseEntity(new CustomResponse("Failed", "Check your credentials fool!"),
+                    HttpStatus.UNAUTHORIZED);
+        }
 
     }
 
