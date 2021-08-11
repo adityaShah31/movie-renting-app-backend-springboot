@@ -10,17 +10,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://f-movies.herokuapp.com")
 @RequestMapping("/users")
 public class UserController {
 
@@ -59,10 +57,22 @@ public class UserController {
                     user.getPassword()));
 
             return new ResponseEntity(new CustomResponse("Success", "You're logged in fam!"), HttpStatus.OK);
-        } catch (BadCredentialsException ex) {
+        } catch (Exception ex) {
             return new ResponseEntity(new CustomResponse("Failed", "Check your credentials fool!"),
                     HttpStatus.UNAUTHORIZED);
         }
+
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity getUser(@PathVariable String id) {
+
+        Optional<User> user = userService.getUser(id);
+
+        if (user == null)
+            return new ResponseEntity(new CustomResponse(null, "No such user exists!"), HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity(new CustomResponse(user, "Here's the user!"), HttpStatus.OK);
 
     }
 

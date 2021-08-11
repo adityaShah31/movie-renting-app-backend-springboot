@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://f-movies.herokuapp.com")
 @RequestMapping("/videos")
 public class VideoController {
 

@@ -2,6 +2,7 @@ package com.fmovies.restapimongodb.service;
 
 import com.fmovies.restapimongodb.model.User;
 import com.fmovies.restapimongodb.model.UserRepository;
+import com.fmovies.restapimongodb.model.Video;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -44,4 +46,9 @@ public class UserService implements UserDetailsService {
                 existingUser.getPassword(), new ArrayList<>());
 
     }
+
+    public Optional<User> getUser(String id) {
+        return userRepository.findById(id);
+    }
+
 }
