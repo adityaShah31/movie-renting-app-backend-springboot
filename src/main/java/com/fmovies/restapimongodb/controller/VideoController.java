@@ -54,7 +54,7 @@ public class VideoController {
         ArrayList<Video> results = videoService.getVideoBySearch(q);
 
         if (results == null || results.size() == 0)
-            return new ResponseEntity(new CustomResponse(null, "No such movie or tv-show found fam!"),
+            return new ResponseEntity(new CustomResponse(new ArrayList<Video>(), "No such movie or tv-show found fam!"),
                     HttpStatus.NOT_FOUND);
 
         return new ResponseEntity(new CustomResponse(results, "Here's the results for \"" + q + "\""), HttpStatus.OK);
